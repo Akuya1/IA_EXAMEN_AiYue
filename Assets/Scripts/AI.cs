@@ -8,7 +8,8 @@ public class AI : MonoBehaviour
     enum State
     {
         Patrolling,
-        Chasing
+        Chasing,
+        Attack
     }
 
     State currentState;
@@ -17,6 +18,7 @@ public class AI : MonoBehaviour
     int destinationIndex = 0;
     public Transform player;
     public float visionRange;
+    float attackRange;
 
     void Awake() 
     {
@@ -44,6 +46,10 @@ public class AI : MonoBehaviour
             default:
                 Chase();
             break;
+            case State.Attack:
+                Debug.Log("Attack");
+                Attack();
+            break;
         }
     }
 
@@ -61,6 +67,14 @@ public class AI : MonoBehaviour
             currentState = State.Chasing;
         }
 
+    }
+
+    void Attack ()
+    {
+        if(Vector3.Distance(transform.position, player.position) < attackRange)
+        {
+            currentState = State.Attack;
+        }
     }
 
     void Chase()
